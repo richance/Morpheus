@@ -154,11 +154,10 @@ const ABI = [
     type: "function",
   },
 ];
-const { Contract, BigNumber } = require("ethers");
+const { Contract } = require("ethers");
 // storage for last update timestamp
 let pk = process.env.PK;
 const args = process.argv.slice(2);
-let minfee = process.env.MINFEE;
 
 const flags = {};
 
@@ -197,7 +196,6 @@ async function node() {
     !!ABI && !!walletWithProvider
       ? new Contract(contractAddress, ABI, walletWithProvider)
       : undefined;
-  let i;
 
   let pendingRequests = [];
 
@@ -244,7 +242,7 @@ async function node() {
     }
   }, 5000);
 
-  contract.on("dataCallbackRequested", (requestID, bounty, event) => {
+  contract.on("dataCallbackRequested", (requestID, bounty) => {
     console.log(`Received new request ${requestID} with bounty ${bounty}`);
     if (bounty.gt(0)) {
       // Only add the request to the queue if the bounty is greater than 0

@@ -83,7 +83,7 @@ async function init() {
       0,
       "0x3c7d411cd262d3Fe4c0432C7412341aFc33efd11",
     );
-    const { events, cumulativeGasUsed, gasUsed, transactionHash } =
+    const {  cumulativeGasUsed, gasUsed, transactionHash } =
       await tx.wait();
     console.log(`Cumulative: ${cumulativeGasUsed.toNumber()}`);
     console.log(`Gas: ${gasUsed.toNumber()}`);
@@ -127,7 +127,6 @@ async function node() {
     !!ABI && !!walletWithProvider
       ? new Contract(contractAddress, ABI, walletWithProvider)
       : undefined;
-  let i;
 
   async function vrfHash(value, feedID, fl) {
     let hash = keccak256(
@@ -193,7 +192,9 @@ async function node() {
 
       try {
         parsingargs = endpointp.split(",");
-      } catch {}
+      } catch(e) {
+        console.log(e)
+      }
 
       let tempInv = {
         feedId: feedId,
@@ -210,7 +211,6 @@ async function node() {
   });
 
   async function processFeeds(endpoint, endpointp, parsingargs, feedId, c) {
-    let i;
     let feedIdArray = [];
     let feedValueArray = [];
     console.log("checking feed APIs");
@@ -256,24 +256,6 @@ async function node() {
         lastUpdate[feedId] = Date.now();
         console.log("Time ", lastUpdate[feedId]);
 
-        const provider = new ethers.providers.JsonRpcProvider(rpc);
-        const oofAddress = contractAddress;
-        const walletWithProvider = new ethers.Wallet(pk, provider);
-        const oofContract =
-          !!ABI && !!walletWithProvider
-            ? new Contract(oofAddress, ABI, walletWithProvider)
-            : undefined;
-
-        let gasPrice = await provider.getGasPrice();
-        let tx_obk = {
-          gasPrice: gasPrice,
-        };
-
-        async function wait(ms) {
-          return new Promise((resolve) => {
-            setTimeout(resolve, ms);
-          });
-        } //if (ethers.utils.formatEther(gF) > 0) {
         submit(feedId, toParse, 0);
       } else {
         console.log(
@@ -310,20 +292,9 @@ async function node() {
     console.log("New feed Support:");
     let feedId = [];
     feedId[0] = feedd;
-    const oofAddress = process.env.OOFAddress;
-
-    const walletWithProvider = new ethers.Wallet(pk, provider);
-    const oofContract =
-      !!ABI && !!walletWithProvider
-        ? new Contract(oofAddress, ABI, walletWithProvider)
-        : undefined;
 
     let tempInv = {
-      feedId: feedId,
-      //    "endpoint": endpoint,
-      //    "dc": dc,
-      //    "c": c,
-      //    "parsingargs": parsingargs
+      feedId: feedId
     };
 
     // process into global feed array
@@ -332,8 +303,6 @@ async function node() {
   });
 
   async function processFds(feedId) {
-    const provider = new ethers.providers.JsonRpcProvider(rpc);
-    const oofAddress = process.env.OOFAddress;
     let feedIdArray = [];
     let feedValueArray = [];
     const d = await oofContract.getFeeds(feedId);
@@ -563,19 +532,9 @@ async function node() {
     }
   }
 
-  function hexToUtf8(hex) {
-    let str = "";
-    for (let i = 0; i < hex.length; i += 2) {
-      const v = parseInt(hex.substr(i, 2), 16);
-      if (v) str += String.fromCharCode(v);
-    }
-    return str;
-  }
-
-  async function submit(feedIds, values, flags) {
+  async function submit(feedIds, values) {
     let feedId = feedIds;
     let value = values;
-    let fl = flags;
     let val = "";
 
     try {

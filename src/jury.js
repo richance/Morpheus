@@ -3,7 +3,7 @@ require("dotenv").config();
 let rpc = process.env.RPC;
 let contractAddress = process.env.OOFAddress; // replace with your contract address
 const ABI = require("../abi/NostradamusSS.json");
-const { Contract, BigNumber } = require("ethers");
+const { Contract } = require("ethers");
 
 // storage for last update timestamp
 let pk = process.env.PK;
@@ -47,7 +47,18 @@ const oofContract =
     : undefined;
 
 let txa = [];
+
+function hexToUtf8(hex) {
+  let str = "";
+  for (let i = 0; i < hex.length; i += 2) {
+    const v = parseInt(hex.substr(i, 2), 16);
+    if (v) str += String.fromCharCode(v);
+  }
+  return str;
+}
+
 async function submit(feedId, value, fl) {
+  let val;
   try {
     val = "";
     if (ethers.utils.isHexString(value)) {
