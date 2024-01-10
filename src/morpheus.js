@@ -461,7 +461,9 @@ async function node() {
         },
         body: JSON.stringify(payload),
       });
-    } catch {}
+    } catch(error) {
+      console.error(error)
+    }
   }
 
   async function Xchain(input, feedID) {
@@ -649,10 +651,6 @@ async function node() {
             tx.hash,
           );
 
-          function delay(time) {
-            return new Promise((resolve) => setTimeout(resolve, time));
-          }
-
           while (true) {
             await delay(10000); // Wait for 10 seconds
 
@@ -704,6 +702,10 @@ async function node() {
           console.error("Error during batch transaction confirmation:", error);
         }
       }
+    }
+
+    function delay(time) {
+      return new Promise((resolve) => setTimeout(resolve, time));
     }
   }
 }
