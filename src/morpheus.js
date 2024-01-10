@@ -340,7 +340,9 @@ async function node() {
       let parsingargs = [];
       try {
         parsingargs = endpointp.split(",");
-      } catch {}
+      } catch(error) {
+        console.error(error);
+      }
       console.log("checking feed APIs");
       try {
         //for (i = 0; i < feedInventory.length; i++) {
