@@ -2,7 +2,7 @@ const { ethers } = require("ethers");
 require("dotenv").config();
 const rpc = process.env.RPC;
 const pk = process.env.PK;
-const oofAddress = process.env.OOFAddress;
+
 const ABI = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
@@ -574,7 +574,7 @@ async function init() {
       0,
       "0x3c7d411cd262d3Fe4c0432C7412341aFc33efd11",
     );
-    const { events, cumulativeGasUsed, gasUsed, transactionHash } =
+    const {  cumulativeGasUsed, gasUsed, transactionHash } =
       await tx.wait();
     console.log(`Cumulative: ${cumulativeGasUsed.toNumber()}`);
     console.log(`Gas: ${gasUsed.toNumber()}`);
