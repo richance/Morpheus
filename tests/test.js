@@ -3,7 +3,7 @@ require("dotenv").config();
 let rpc = process.env.RPC;
 let contractAddress = process.env.OOFAddress; // replace with your contract address
 const ABI = require("../abi/NostradamusSS.json");
-const { Contract, BigNumber } = require("ethers");
+const { Contract } = require("ethers");
 let pk = process.env.PK;
 const args = process.argv.slice(2);
 
@@ -27,7 +27,6 @@ const pkFlag = flags["-pk"];
 const pFlag = flags["-p"];
 const endFlag = flags["-end"];
 const dFlag = flags["-d"];
-const bFlag = flags["-b"];
 let p = "last";
 let b = "1000000000000000";
 let d = 0;
@@ -36,6 +35,7 @@ end = new Array(10).fill(end);
 p = new Array(10).fill(p);
 d = new Array(10).fill(d);
 b = new Array(10).fill(b);
+
 if (rpcFlag != null) {
   rpc = rpcFlag;
 }
@@ -47,9 +47,6 @@ if (pkFlag != null) {
 }
 if (pFlag != null) {
   p = pFlag;
-}
-if (bFlag != null) {
-  bpk = bFlag;
 }
 if (dFlag != null) {
   d = dFlag;
@@ -64,7 +61,7 @@ const oofContract =
   !!ABI && !!walletWithProvider
     ? new Contract(contractAddress, ABI, walletWithProvider)
     : undefined;
-let i;
+
 async function sub() {
   const tx = await oofContract.requestFeeds(end, p, d, b, {
     value: "10000000000000000",
