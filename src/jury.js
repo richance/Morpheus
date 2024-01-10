@@ -46,7 +46,6 @@ const oofContract =
     ? new Contract(contractAddress, ABI, walletWithProvider)
     : undefined;
 
-
 let txa = [];
 async function submit(feedId, value, fl) {
   try {
@@ -67,34 +66,34 @@ async function submit(feedId, value, fl) {
     const gasPrice = await provider.getGasPrice();
     const tx_obk = { gasPrice };
     const gasLimit = await oofContract.estimateGas.submitFeed(
-        [feedId],
-        [value],
-        [val],
-        tx_obk,
+      [feedId],
+      [value],
+      [val],
+      tx_obk,
     );
     const gasFee = gasLimit.mul(gasPrice);
     let sup = await oofContract.feedSupport(feedId);
     const ethProfit = sup - gasFee;
 
     console.log(
-        "Gas fee:",
-        ethers.utils.formatEther(gasFee.toString()),
-        "ETH ",
-        ethers.utils.formatUnits(gasPrice, "gwei") + " gwei",
+      "Gas fee:",
+      ethers.utils.formatEther(gasFee.toString()),
+      "ETH ",
+      ethers.utils.formatUnits(gasPrice, "gwei") + " gwei",
     );
     console.log("Bounty ", ethers.utils.formatEther(sup));
     console.log("ETH Profit", ethers.utils.formatEther(ethProfit.toString()));
 
     if (ethProfit > 0 && ethProfit >= minfee) {
       console.log(
-          "submitting with gas price: " +
+        "submitting with gas price: " +
           ethers.utils.formatUnits(gasPrice, "gwei") +
           " gwei",
       );
       console.log("submitting feeds...");
       const tx = await oofContract.submitFeed([feedId], [value], [val], tx_obk);
       console.log(
-          `submitted feed id ${feedId} with value ${value} at ${Date.now()}`,
+        `submitted feed id ${feedId} with value ${value} at ${Date.now()}`,
       );
       console.log("Transaction hash: " + tx.hash);
       await tx.wait();
@@ -180,5 +179,3 @@ async function node() {
   await processSavedRequests();
 }
 node();
-
-
