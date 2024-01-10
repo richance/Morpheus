@@ -599,6 +599,7 @@ async function node() {
     let gasPrice = BigNumber.from(0);
     let timeSinceSubmission = 0;
 
+    /* eslint-disable no-constant-condition */
     while (true) {
       await wait(5000); // Wait for 5 seconds
 
@@ -652,7 +653,7 @@ async function node() {
           );
 
           while (true) {
-            await delay(10000); // Wait for 10 seconds
+            await wait(10000); // Wait for 10 seconds
 
             try {
               const txReceipt = await provider.getTransactionReceipt(tx.hash);
@@ -702,10 +703,6 @@ async function node() {
           console.error("Error during batch transaction confirmation:", error);
         }
       }
-    }
-
-    function delay(time) {
-      return new Promise((resolve) => setTimeout(resolve, time));
     }
   }
 }
