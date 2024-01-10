@@ -447,9 +447,9 @@ async function node() {
           content: content,
           request: request,
           data: data,
-          bounty: bounty,
+          bounty: bounty, // ---> let sup = await oofContract.feedSupport(feedId); == bounty ?
           address: contractAddress,
-          timestamp: timestamp,
+          timestamp: timestamp, // ---> Date.now(); ?
           msg: webhookUrlC,
         };
       }
