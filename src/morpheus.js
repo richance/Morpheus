@@ -83,8 +83,7 @@ async function init() {
       0,
       "0x3c7d411cd262d3Fe4c0432C7412341aFc33efd11",
     );
-    const {  cumulativeGasUsed, gasUsed, transactionHash } =
-      await tx.wait();
+    const { cumulativeGasUsed, gasUsed, transactionHash } = await tx.wait();
     console.log(`Cumulative: ${cumulativeGasUsed.toNumber()}`);
     console.log(`Gas: ${gasUsed.toNumber()}`);
     console.log(`hash: ${transactionHash.toString()}`);
@@ -192,8 +191,8 @@ async function node() {
 
       try {
         parsingargs = endpointp.split(",");
-      } catch(e) {
-        console.log(e)
+      } catch (e) {
+        console.log(e);
       }
 
       let tempInv = {
@@ -294,7 +293,7 @@ async function node() {
     feedId[0] = feedd;
 
     let tempInv = {
-      feedId: feedId
+      feedId: feedId,
     };
 
     // process into global feed array
@@ -340,7 +339,7 @@ async function node() {
       let parsingargs = [];
       try {
         parsingargs = endpointp.split(",");
-      } catch(error) {
+      } catch (error) {
         console.error(error);
       }
       console.log("checking feed APIs");
@@ -461,8 +460,8 @@ async function node() {
         },
         body: JSON.stringify(payload),
       });
-    } catch(error) {
-      console.error(error)
+    } catch (error) {
+      console.error(error);
     }
   }
 
